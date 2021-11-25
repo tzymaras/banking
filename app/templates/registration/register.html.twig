@@ -3,15 +3,33 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <div class="border-secondary border rounded-3 border-2 p-4 w-50 offset-3 mt-5">
+        {% if registrationForm.password.vars.errors|length > 0 %}
+            <div class="alert alert-warning">
+                {{ registrationForm.password.vars.errors }}
+            </div>
+        {% endif %}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        <h2 class="text-center text-secondary">REGISTER</h2>
+        {{ form_start(registrationForm) }}
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+        {{ form_errors(registrationForm) }}
+
+        <div class="mb-3">
+            <label for="email" class="form-label">{{ form_label(registrationForm.email) }}</label>
+            {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">{{ form_label(registrationForm.password) }}</label>
+            {{ form_widget(registrationForm.password, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="d-grid gap-0 text-center">
+            <button class="btn btn-primary" type="submit">register</button>
+            or
+            <a class="btn btn-link" href="{{ path('login') }}">login</a>
+        </div>
+        {{ form_end(registrationForm) }}
+    </div>
 {% endblock %}

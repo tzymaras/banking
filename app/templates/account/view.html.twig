@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Overview{% endblock %}
+
+{% block body %}
+    <div class="border-secondary border rounded-3 border-2 p-4 w-auto mt-5">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success alert-dismissible">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-warning alert-dismissible">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <div class="row">
+            <div class="col">
+                <h3>Kontoübersicht</h3>
+                <span class="small d-block">Kontostand: {{ total_balance }}</span>
+                <span class="small">IBAN: {{ account.iban }}</span>
+            </div>
+        </div>
+
+        <div class="row border border-2 border-end-0 border-secondary border-start-0 border-top-0 m-0 mt-2">
+            <div class="col p-0">
+                <h4 class="mt-3">Transaktionshistorie</h4>
+            </div>
+
+            <div class="col p-2 text-end" style="padding-right: 0px !important;">
+                <a class="btn btn-primary btn-sm text-end" href="{{ path('account_transfer_out') }}">Überweisung</a>
+                <a class="btn btn-primary btn-sm" href="{{ path('account_transfer_in') }}">Lastschrift</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {% if transactions|length == 0 %}
+                    <div class="alert alert-secondary mt-3">
+                        <div>keine Transaktionen gefunden</div>
+                    </div>
+                {% else %}
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">IBAN From</th>
+                            <th scope="col">IBAN To</th>
+                            <th scope="col">Betrag</th>
+                            <th scope="col">Typ</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for transaction in transactions %}
+                            <tr>
+                            <td>{{ transaction.ibanFrom }}</td>
+                            <td>{{ transaction.ibanTo }}</td>
+                            <td>{{ transaction.formattedAmount }}</td>
+                            {% if transaction.ibanFrom == account.iban %}
+                                <td>Überweisung</td>
+                            {% else %}
+                                <td>Lastschrift</td>
+                            {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

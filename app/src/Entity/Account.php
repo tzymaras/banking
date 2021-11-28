@@ -3,10 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\AccountRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=AccountRepository::class)
+ * @UniqueEntity(fields={"iban"}, message="an account with this iban exists already")
  */
 class Account
 {
@@ -18,7 +22,7 @@ class Account
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="accounts")
+     * @ORM\OneToOne (targetEntity=User::class, inversedBy="account")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -41,6 +45,16 @@ class Account
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function getUser(): ?User

@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transfer{% endblock %}
+
+{% block body %}
+    <div class="border-secondary border rounded-3 border-2 p-4 w-50 offset-3 mt-5">
+        {% if transactionType == 'income' %}
+            <h2 class="text-center text-secondary">Lastschrift</h2>
+        {% else %}
+            <h2 class="text-center text-secondary">Überweisung</h2>
+        {% endif %}
+
+        {{ form_start(form) }}
+
+        {{ form_errors(form) }}
+
+        {% if transactionType == 'income' %}
+            <div class="mb-0">
+                <label for="ibanFrom" class="form-label">{{ form_label(form.ibanFrom) }}</label>
+                {{ form_widget(form.ibanFrom, {'attr': {'class': 'form-control'}}) }}
+                <span class="text-danger small d-inline-block">{{ form.ibanFrom.vars.errors|replace({'ERROR:': ''}) }}</span>
+            </div>
+        {% else %}
+            <div class="mb-0">
+                <label for="ibanTo" class="form-label">{{ form_label(form.ibanTo) }}</label>
+                {{ form_widget(form.ibanTo, {'attr': {'class': 'form-control'}}) }}
+                <span class="text-danger small d-inline-block">{{ form.ibanTo.vars.errors|replace({'ERROR:': ''}) }}</span>
+            </div>
+        {% endif %}
+
+        <div class="mb-0">
+            <label for="amount" class="form-label">{{ form_label(form.amount) }}</label>
+            {{ form_widget(form.amount, {'attr': {'class': 'form-control'}}) }}
+            <span class="text-danger small d-inline-block">{{ form.amount.vars.errors|replace({'ERROR:': ''}) }}</span>
+        </div>
+
+        <div class="mb-0">
+            <label for="reference" class="form-label">{{ form_label(form.reference) }}</label>
+            {{ form_widget(form.reference, {'attr': {'class': 'form-control'}}) }}
+            <span class="small text-danger d-inline-block">{{ form.reference.vars.errors|replace({'ERROR:': ''}) }}</span>
+        </div>
+
+        <div class="d-grid gap-0 text-center">
+            <button class="btn btn-outline-secondary" type="submit">Transaktion durchführen</button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -1,14 +1,17 @@
-banking:
-    path: /banking
-    controller: App\Controller\DefaultController::index
+account_view:
+    path: /banking/account
+    controller: App\Controller\AccountController::accountView
+    methods: GET
 
-transfer_in:
-    path: /banking/transactions/deposit
-    controller: App\Controller\DefaultController::deposit
+account_transfer_in:
+    path: /banking/account/transactions/deposit
+    controller: App\Controller\TransactionController::deposit
+    methods: GET|POST
 
-transfer_out:
-    path: /banking/transactions/transfer
-    controller: App\Controller\DefaultController::transfer
+account_transfer_out:
+    path: /banking/account/transactions/transfer
+    controller: App\Controller\TransactionController::transfer
+    methods: GET|POST
 
 app_logout:
     path: /logout
@@ -18,7 +21,7 @@ index:
     path: /
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
     defaults:
-        route: 'banking'
+        route: 'account_view'
 
 app_register:
     path: /register

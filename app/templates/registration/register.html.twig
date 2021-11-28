@@ -4,6 +4,12 @@
 
 {% block body %}
     <div class="border-secondary border rounded-3 border-2 p-4 w-50 offset-3 mt-5">
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+
         {% if registrationForm.password.vars.errors|length > 0 %}
             <div class="alert alert-warning">
                 {{ registrationForm.password.vars.errors }}

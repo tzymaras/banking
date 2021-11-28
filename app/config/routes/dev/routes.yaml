@@ -1,0 +1,3 @@
+dummy_external_api:
+  path: /dummy-external-api
+  controller: App\Controller\DummyApiController::dummyExternalAPI

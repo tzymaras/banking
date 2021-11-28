@@ -40,14 +40,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Account::class, mappedBy="user")
+     * @ORM\OneToOne(targetEntity=Account::class, mappedBy="user")
      */
-    private $accounts;
-
-    public function __construct()
-    {
-        $this->accounts = new ArrayCollection();
-    }
+    private $account;
 
     public function getId(): ?int
     {
@@ -139,31 +134,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection|Account[]
+     * @return Account
      */
-    public function getAccounts(): Collection
+    public function getAccount(): Account
     {
-        return $this->accounts;
+        return $this->account;
     }
 
-    public function addAccount(Account $account): self
+    /**
+     * @param Account $account
+     * @return $this
+     */
+    public function setAccount(Account $account): self
     {
-        if (!$this->accounts->contains($account)) {
-            $this->accounts[] = $account;
-            $account->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAccount(Account $account): self
-    {
-        if ($this->accounts->removeElement($account)) {
-            // set the owning side to null (unless already changed)
-            if ($account->getUser() === $this) {
-                $account->setUser(null);
-            }
-        }
+        $this->account = $account;
+        $account->setUser($this);
 
         return $this;
     }

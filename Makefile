@@ -1,6 +1,5 @@
 docker-build-dev:
 	@docker-compose -f docker-compose.dev.yml up \
-		--detach \
 		--build \
 		--remove-orphans \
 		--always-recreate-deps \
